@@ -26,6 +26,8 @@ def E_mod(material: str):
              "Al-2014": 73,
              "Al-2024": 73.1,
              "Al-6061": 68,
+             "Ti-6AL": 104,
+             "Composite": 110,
              "Al-7075": 71.7
              }
     return E_mod[material]
@@ -58,6 +60,8 @@ def Yield_stress(material: str):
                     "Al-2014": 324,
                     "Al-2024": 200,
                     "Al-6061": 83,
+                    "Ti-6AL": 880,
+                    "Composite": 825,
                     "Al-7075": 303
                     }  # MPa
     return Yield_stress[material]
@@ -74,6 +78,8 @@ def density(material: str):
                "Al-2014": 2800,
                "Al-2024": 2770,
                "Al-6061": 2710,
+               "Ti-6AL": 4429,
+               "Composite": 1550,
                "Al-7075": 2800
                }  # kg/m^3
 
