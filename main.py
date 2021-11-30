@@ -72,17 +72,12 @@ def firstIteration(tank: FuelTank):
     massIteration(tank, starting_mass, mass_with_attachments_1)
 
 def massIteration(tank: FuelTank, old_mass, new_mass):
-    iteration = 0
-    print((abs(new_mass - old_mass)) / old_mass)
-    while (abs(new_mass - old_mass)) / old_mass > 0.01:
-        iteration += 1
-        print(iteration)
+    while (abs(new_mass - old_mass)) / old_mass > 0.001:
         old_mass = new_mass
         tank.p3()
         tank.p4()
         tank.massCalc()
         new_mass = tank.mass
-    print((abs(new_mass - old_mass)) / old_mass)
 
 
 
