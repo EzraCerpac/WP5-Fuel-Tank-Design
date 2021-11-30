@@ -17,7 +17,7 @@ class FuelTank():
         self.m2 = 850.5
         # Assume 1 large tank
         self.V = self.V1 + self.V2
-        self.m = self.m1 + self.m2
+        self.m = self.m1 + self.m2  # is this the mass of the fuel? -Ezra
 
         # Definition for dimensions
         self.R = R
@@ -26,7 +26,7 @@ class FuelTank():
         # Material
         self.material = material
 
-        self.n_attachments = 4 # Random starting value
+        self.n_attachments = 4  # Random starting value
 
         self.a_axial = 7.5 * 9.81
         self.a_lateral = 2.5 * 9.81
@@ -37,7 +37,7 @@ class FuelTank():
         self.t1 = (self.P*self.R)/(mp.Yield_stress(self.material)*10**6)
         self.t2 = (self.P*self.R)/(2*mp.Yield_stress(self.material)*10**6)
         # starting mass
-        self.mass = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2)
+        self.mass = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2, self.m)
 
     def p3(self):
         self.column_ratio, self.shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P, self.n_attachments, self.m, self.a_axial)
@@ -50,7 +50,7 @@ class FuelTank():
         self.attachments_mass = MassOfAttachments4.calc_mass(self.compressive_load, self.n_attachments)
 
     def massCalc(self):
-        self.mass = TotalMassCalc.main(self.material, self.R, self.L, self.t1, self.t2, self.attachments_mass)
+        self.mass = TotalMassCalc.main(self.material, self.R, self.L, self.t1, self.t2, self.attachments_mass, self.m)
 
 
 
@@ -77,7 +77,6 @@ def massIteration(tank: FuelTank, old_mass, new_mass):
         tank.p4()
         tank.massCalc()
         new_mass = tank.mass
-
 
 
 if __name__ == '__main__':

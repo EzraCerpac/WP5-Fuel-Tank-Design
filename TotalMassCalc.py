@@ -1,7 +1,7 @@
 from math import pi
 from MaterialProperties import density
 
-def tankMass(material: str, R, L, t1, t2):
+def tankMass(material: str, R, L, t1, t2, mass_fuel):
     # end caps
     volume_caps = 4 * pi * R ** 2 * t2
 
@@ -12,10 +12,10 @@ def tankMass(material: str, R, L, t1, t2):
     # total tank
     volume_total = volume_caps + volume_mid
     mass_tank = volume_total * density(material)
-    return mass_tank
+    return mass_tank + mass_fuel
 
 
-def main(material: str, R, L, t1, t2, attachments_mass):
-    mass_tank = tankMass(material, R, L, t1, t2)
+def main(material: str, R, L, t1, t2, attachments_mass, mass_fuel):
+    mass_tank = tankMass(material, R, L, t1, t2, mass_fuel)
     total_mass = mass_tank + attachments_mass
     return total_mass
