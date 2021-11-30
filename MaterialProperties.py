@@ -59,8 +59,24 @@ def Yield_stress(material: str):
                      "Al-6061": 83,
                      "Al-7075": 303
                      } #MPa
-
     return Yield_stress[material]
+
+
+def Critical_stress(material: str): # Still random values !
+    critical_stress = {"steel-4130": 483,
+                     "steel-4340": 1496,
+                     "S 96": 680,
+                     "S 99": 1080,
+                     "S 510": 255,
+                     "S 514": 630,
+                     "T 45": 620,
+                     "Al-2014": 324,
+                     "Al-2024": 200,
+                     "Al-6061": 83,
+                     "Al-7075": 303
+                     } #MPa
+    return critical_stress[material]
+
 
 def density(material: str):
     density = {      "steel-4130": 7830,
