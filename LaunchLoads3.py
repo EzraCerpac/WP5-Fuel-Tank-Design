@@ -10,7 +10,9 @@ def column(material: str, R, L, t1):
     return sigma_cr
 
 
-def shell(E, v, p, R, L, t1, h):
+def shell(material: str, p, R, L, t1, h):
+    E = mp.E_mod(material)
+    v = mp.Poisson_ratio(material)
     Q = p/E * (R/t1)**2
     k = h + 12/pi**4 * L**4/(R**2*t1**2) * (1-v**2)/h
 
