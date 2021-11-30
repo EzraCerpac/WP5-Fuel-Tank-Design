@@ -7,7 +7,8 @@ class Spacecraft:
         self.h = 4.25  # Height of SC
         self.d = 2.3  # Inner Diameter of SC
 
-        self.a = 5  # Acceleration random value
+        self.a_axial = 7.5*9.81
+        self.a_lateral = 2.5*9.81
 
 class FuelTank(Spacecraft):
     def __init__(self, R, material):
