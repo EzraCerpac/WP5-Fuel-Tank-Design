@@ -2,8 +2,14 @@ import numpy as np
 import MaterialProperties as mp
 import LaunchLoads3, MassOfAttachments4, TotalMassCalc
 
+class Spacecraft:
+    def __init__(self):
+        self.h = 4.25  # Height of SC
+        self.d = 2.3  # Inner Diameter of SC
+        
+        self.a = 5  # Acceleration random value
 
-class FuelTank:
+class FuelTank(Spacecraft):
     def __init__(self, R, material):
         # 1 refers to fuel, 2 to oxidizer
         self.V1 = 0.28
@@ -29,7 +35,7 @@ class FuelTank:
 
     def p3(self):
         self.sigma_cr_column_buckling = LaunchLoads3.main(self.material, self.R, self.L, self.t1)
-        self.compressive_load = 5  # Something calculated here
+        self.compressive_load = LaunchLoads3.launch_loads(self.mass, self.a, self.R, self.t1)
 
     def p4_find_n(self):
         self.n_attachments, self.attachments_mass = MassOfAttachments4.main(self.compressive_load)
@@ -42,18 +48,11 @@ class FuelTank:
 
 
 
-
-class Spacecraft:
-    def __init__(self):
-        self.h = 4.25  # Height of SC
-        self.d = 2.3  # Inner Diameter of SC
-
-
 def main():
     SAPPHIRE = Spacecraft()
     # R must be smaller than 0.536 or L=0
     tank = FuelTank(0.4, "Al-2014")
-    pass
+    iteration(tank)
 
 
 def iteration(tank: FuelTank):
