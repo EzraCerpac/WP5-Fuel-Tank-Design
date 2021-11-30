@@ -7,4 +7,4 @@ def main(material: str, R, L, t1):
     A = pi * R**2
 
     sigma_cr = (pi**2 * E * I) / (A * L**2)
-    return sigma_cr, sigma_cr > mp.Critical_stress(material)
+    return sigma_cr
