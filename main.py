@@ -1,4 +1,4 @@
-import LaunchLoads3a, LaunchLoads3b
+import LaunchLoads3
 
 class FuelTank:
     def __init__(self):
@@ -18,9 +18,6 @@ class FuelTank:
         self.t1 = 3e-3
         self.t2 = 4e-3
 
-
-    def p3a(self):
-        self.sigma_cr_column_buckling = LaunchLoads3a.main(self.material, self.R, self.L, self.t1)
 
 
 
