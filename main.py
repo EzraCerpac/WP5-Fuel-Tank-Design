@@ -6,7 +6,7 @@ class Spacecraft:
     def __init__(self):
         self.h = 4.25  # Height of SC
         self.d = 2.3  # Inner Diameter of SC
-        
+
         self.a = 5  # Acceleration random value
 
 class FuelTank(Spacecraft):
@@ -34,7 +34,7 @@ class FuelTank(Spacecraft):
         self.t2 = (self.P*self.R)/(2*mp.Yield_stress(self.material)*10**6)
 
     def p3(self):
-        self.sigma_cr_column_buckling = LaunchLoads3.main(self.material, self.R, self.L, self.t1)
+        self.sigma_cr_column_buckling = LaunchLoads3.column(self.material, self.R, self.L, self.t1)
         self.compressive_load = LaunchLoads3.launch_loads(self.mass, self.a, self.R, self.t1)
 
     def p4_find_n(self):
