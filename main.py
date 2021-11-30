@@ -35,8 +35,8 @@ class FuelTank(Spacecraft):
 
 
     def p3(self):
-        self.sigma_cr_column_buckling = LaunchLoads3.column(self.material, self.R, self.L, self.t1)
-        self.compressive_load = LaunchLoads3.launch_loads(self.mass, self.a, self.R, self.t1)
+        self.column_ratio, self.shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P, h, self.mass, self.a)
+        self.compressive_load = self.mass * self.a
 
     def p4_find_n(self):
         self.n_attachments, self.attachments_mass = MassOfAttachments4.main(self.compressive_load)
