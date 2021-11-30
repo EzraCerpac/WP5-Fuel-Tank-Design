@@ -22,7 +22,7 @@ class FuelTank(Spacecraft):
 
         # Definition for dimensions
         self.R = R
-        self.L = (-4 * np.pi * self.R ** 3 + 3 * self.V) / (3 * np.pi * self.R ** 2)
+        self.L = (-4 * np.pi * self.R ** 3 + 3 * self.V) / (3 * np.pi * self.R ** 2)+2*self.R
 
         # Material
         self.material = material
@@ -32,6 +32,7 @@ class FuelTank(Spacecraft):
         self.P = 18.5e5
         self.t1 = (self.P*self.R)/(mp.Yield_stress(self.material)*10**6)
         self.t2 = (self.P*self.R)/(2*mp.Yield_stress(self.material)*10**6)
+
 
     def p3(self):
         self.sigma_cr_column_buckling = LaunchLoads3.column(self.material, self.R, self.L, self.t1)
@@ -44,7 +45,9 @@ class FuelTank(Spacecraft):
         self.attachments_mass = MassOfAttachments4.calc_mass(self.compressive_load, self.n_attachments)
 
     def massCalc(self):
-        self.mass = TotalMassCalc.main(self.material, self.R, self.L, self.t1, self.t2, self.attachments_mass)
+        self.m_tank = (2 * np.pi * self.R * (
+                    self.L - 2 * self.R) * self.t1 + 4 * np.pi * self.R ** 2 * self.t2) * mp.density(self.material)
+        self.m_total = TotalMassCalc.main(self.m_tank, self.attachments_mass)
 
 
 
