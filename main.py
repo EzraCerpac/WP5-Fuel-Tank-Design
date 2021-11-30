@@ -8,8 +8,8 @@ class FuelTank:
         # 1 refers to fuel, 2 to oxidizer
         self.V1 = 0.28
         self.V2 = 0.367
-        self.m1 = 393.7
-        self.m2 = 850.5
+        self.m1 = 246.52
+        self.m2 = 532.47
         # Assume 1 large tank
         self.V = self.V1 + self.V2
         self.m = self.m1 + self.m2
