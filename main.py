@@ -27,6 +27,8 @@ class FuelTank(Spacecraft):
         # Material
         self.material = material
 
+        self.nr_attachments = 4 # Random starting value
+
     def p2(self):
         # t1 for cylinder, t2 for sphere in meters
         self.P = 18.5e5
@@ -34,8 +36,8 @@ class FuelTank(Spacecraft):
         self.t2 = (self.P*self.R)/(2*mp.Yield_stress(self.material)*10**6)
 
     def p3(self):
-        self.column_ratio, self.shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P, h, self.mass, self.a)
-        self.compressive_load = self.mass * self.a
+        self.column_ratio, self.shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P, self.nr_attachments, self.m, self.a)
+        self.compressive_load = self.m * self.a
 
     def p4_find_n(self):
         self.n_attachments, self.attachments_mass = MassOfAttachments4.main(self.compressive_load)
