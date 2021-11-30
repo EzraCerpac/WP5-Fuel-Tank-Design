@@ -12,7 +12,7 @@ class Spacecraft:
         self.a_lateral = 2.5 * 9.81
 
 
-class FuelTank():
+class FuelTank:
     def __init__(self, R, material):
         # 1 refers to fuel, 2 to oxidizer
         self.V1 = 0.28
