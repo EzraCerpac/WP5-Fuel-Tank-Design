@@ -1,6 +1,6 @@
 import numpy as np
 import MaterialProperties as mp
-import LaunchLoads3, LaunchLoads3b, MassOfAttachments4, TotalMassCalc
+import LaunchLoads3, MassOfAttachments4, TotalMassCalc
 
 
 class FuelTank:
