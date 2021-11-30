@@ -4,7 +4,7 @@ import MaterialProperties as mp
 def column(material: str, R, L, t1):
     E = mp.E_mod(material)
     I = pi * R**3 * t1
-    A = pi * R**2
+    A = 2*pi*R*t
 
     sigma_cr = (pi**2 * E * I) / (A * L**2)
     return sigma_cr
@@ -20,10 +20,16 @@ def shell(material: str, p, R, L, t1, h):
 
     return crit_stress
 
-def launch_loads(m, a, R, t):
+def launch_loads(m, a, R, t1):
     F = m*a
-    A = 2*pi*R*t
+    A = 2*pi*R*t1
 
     stress = F/A
 
     return stress
+
+def main(material: str, R, L, t1, p, h, m, a):
+    column_ratio = launch_loads(m, a, R, t1)/column(material, R, L, t1)
+    shell_ratio = launch_loads(m, a, R, t1)/shell(material, p, R, L, t1, h)
+
+    return column_ratio, shell_ratio
