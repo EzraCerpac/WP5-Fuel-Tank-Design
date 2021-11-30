@@ -4,7 +4,7 @@ import MaterialProperties as mp
 def column(material: str, R, L, t1):
     E = mp.E_mod(material)
     I = pi * R**3 * t1
-    A = 2*pi*R*t
+    A = 2*pi*R*t1
 
     sigma_cr = (pi**2 * E * I) / (A * L**2)
     return sigma_cr
