@@ -1,6 +1,6 @@
 import numpy as np
 import MaterialProperties as mp
-import LaunchLoads3a, LaunchLoads3b
+import LaunchLoads3a, LaunchLoads3b, MassOfAttachments4
 
 
 class FuelTank:
@@ -29,6 +29,13 @@ class FuelTank:
 
     def p3a(self):
         self.sigma_cr_column_buckling = LaunchLoads3a.main(self.material, self.R, self.L, self.t1)
+        self.compressive_load = 5  # Something calculated here
+
+    def p4_find_n(self):
+        self.n_attachments, self.attachments_mass = MassOfAttachments4.main(self.compressive_load)
+
+    def p4(self):
+        self.attachments_mass = MassOfAttachments4.calc_mass(self.compressive_load, self.n_attachments)
 
 
 
@@ -43,6 +50,12 @@ def main():
     # R must be smaller than 0.536 or L=0
     tank = FuelTank(0.4, "Al-2014")
     pass
+
+
+def iteration(tank):
+    tank.p2()
+    tank.p3a()
+    rank.p4()
 
 
 if __name__ == '__main__':
