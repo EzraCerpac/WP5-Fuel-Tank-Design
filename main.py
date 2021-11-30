@@ -21,15 +21,15 @@ class FuelTank():
 
         # Definition for dimensions
         self.R = R
-        self.L = (-4 * np.pi * self.R ** 3 + 3 * self.V) / (3 * np.pi * self.R ** 2)
+        self.L = (-4 * np.pi * self.R ** 3 + 3 * self.V) / (3 * np.pi * self.R ** 2)+2*self.R
 
         # Material
         self.material = material
 
-        # Assumption of number of attachments
-        self.n_attachments = 4
+        self.n_attachments = 4 # Random starting value
 
-        self.a = 5  # Acceleration random value
+        self.a_axial = 7.5 * 9.81
+        self.a_lateral = 2.5 * 9.81
 
     def p2(self):
         # t1 for cylinder, t2 for sphere in meters
@@ -40,9 +40,8 @@ class FuelTank():
         self.mass = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2)
 
     def p3(self):
-        self.column_ratio, self.shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P,
-                                                                self.n_attachments, self.mass, self.a)
-        self.compressive_load = self.mass * self.a
+        self.column_ratio, self.shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P, self.n_attachments, self.m, self.a_axial)
+        self.compressive_load = self.m * self.a_axial
 
     def p4_find_n(self):
         self.n_attachments, self.attachments_mass = MassOfAttachments4.main(self.compressive_load)
