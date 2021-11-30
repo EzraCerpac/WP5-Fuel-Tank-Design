@@ -11,6 +11,7 @@ class Spacecraft:
         self.a_axial = 7.5 * 9.81
         self.a_lateral = 2.5 * 9.81
 
+
 class FuelTank():
     def __init__(self, R, material):
         # 1 refers to fuel, 2 to oxidizer
@@ -29,7 +30,7 @@ class FuelTank():
         # Material
         self.material = material
 
-        self.n_attachments = 4 # Random starting value
+        self.n_attachments = 4  # Random starting value
 
         self.a_axial = 7.5 * 9.81
         self.a_lateral = 2.5 * 9.81
@@ -41,7 +42,8 @@ class FuelTank():
         self.t2 = (self.P * self.R) / (2 * mp.Yield_stress(self.material) * 10 ** 6)
 
     def p3(self):
-        self.column_ratio, self.shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P, self.n_attachments, self.mass, self.a_axial)
+        self.column_ratio, self.shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P,
+                                                                self.n_attachments, self.mass, self.a_axial)
         self.compressive_load = self.mass * self.a_axial
 
     def p4_find_n(self):
@@ -60,7 +62,7 @@ def main():
     SAPPHIRE = Spacecraft()
     # R must be smaller than 0.536 or L=0
     tank_v1 = FuelTank(0.4, "Ti-6AL")
-    iteration(tank_v1)
+    firstIteration(tank_v1)
 
 
 def firstIteration(tank: FuelTank):
@@ -72,6 +74,7 @@ def firstIteration(tank: FuelTank):
     mass_with_attachments_1 = tank.mass
     massIteration(tank, starting_mass, mass_with_attachments_1)
 
+
 def massIteration(tank: FuelTank, old_mass, new_mass):
     while (abs(new_mass - old_mass)) / old_mass > 0.001:
         old_mass = new_mass
@@ -79,7 +82,6 @@ def massIteration(tank: FuelTank, old_mass, new_mass):
         tank.p4()
         tank.massCalc()
         new_mass = tank.mass
-
 
 
 if __name__ == '__main__':
