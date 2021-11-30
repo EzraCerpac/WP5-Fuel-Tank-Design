@@ -1,5 +1,7 @@
 import numpy as np
 
+import LaunchLoads3a, LaunchLoads3b
+
 class FuelTank:
     def __init__(self, R):
         # 1 refers to fuel, 2 to oxidizer
@@ -12,7 +14,19 @@ class FuelTank:
         self.m = self.m1 + self.m2
         # Definition for dimentions
         self.R = R
-        self.L = (-4*np.pi*self.R**3+3*self.V)/(3*np.pi*self.R**2)
+        self.L = (-4 * np.pi * self.R ** 3 + 3 * self.V) / (3 * np.pi * self.R ** 2)
+
+        # Random Values
+        self.material = "Al-2014"
+        self.t1 = 3e-3
+        self.t2 = 4e-3
+
+
+    def p3a(self):
+        self.column_buckling_stress, fail = LaunchLoads3a.main(self.material, self.R, self.L, self.t1)
+        if fail:
+            print("fail!")
+
 
 class Spacecraft:
     def __init__(self):
