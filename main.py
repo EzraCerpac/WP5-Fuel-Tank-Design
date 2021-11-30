@@ -42,6 +42,7 @@ class FuelTank:
 
 
 
+
 class Spacecraft:
     def __init__(self):
         self.h = 4.25  # Height of SC
