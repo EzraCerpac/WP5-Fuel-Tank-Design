@@ -1,5 +1,5 @@
 import numpy as np
-
+import MaterialProperties as mp
 import LaunchLoads3a, LaunchLoads3b
 
 
@@ -13,14 +13,19 @@ class FuelTank:
         # Assume 1 large tank
         self.V = self.V1 + self.V2
         self.m = self.m1 + self.m2
+
         # Definition for dimentions
         self.R = R
         self.L = (-4 * np.pi * self.R ** 3 + 3 * self.V) / (3 * np.pi * self.R ** 2)
 
-        # Random Values
+        # Material
         self.material = "Al-2014"
-        self.t1 = 3e-3
-        self.t2 = 4e-3
+
+    def p2(self):
+        # t1 for cylinder, t2 for sphere in meters
+        self.P = 18.5e5
+        self.t1 = (self.P*self.R)/(mp.Yield_stress(self.material)*10**6)
+        self.t2 = (self.P*self.R)/(2*mp.Yield_stress(self.material)*10**6)
 
     def p3a(self):
         self.column_buckling_stress, fail = LaunchLoads3a.main(self.material, self.R, self.L, self.t1)
