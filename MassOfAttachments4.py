@@ -34,7 +34,7 @@ def calc_mass(compressive_load: float, n_attachment: int):
     load_per_attachment = compressive_load / n_attachment
 
     # 3
-    ratio = F / load_per_attachment
+    ratio = load_per_attachment / F
 
     # 4
     attachment_mass = ratio * attachment_original_mass
@@ -48,6 +48,7 @@ def main(compressive_load: float):
     lowest_mass = 1e10
     for i in range(1, 11):
         mass = calc_mass(compressive_load, i)
+        print(i, mass)
         if mass < lowest_mass:
             lowest_mass = mass
             n_attachments = i

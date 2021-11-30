@@ -1,6 +1,6 @@
 import numpy as np
 import MaterialProperties as mp
-import LaunchLoads3, LaunchLoads3b, MassOfAttachments4
+import LaunchLoads3, LaunchLoads3b, MassOfAttachments4, TotalMassCalc
 
 
 class FuelTank:
@@ -14,7 +14,7 @@ class FuelTank:
         self.V = self.V1 + self.V2
         self.m = self.m1 + self.m2
 
-        # Definition for dimentions
+        # Definition for dimensions
         self.R = R
         self.L = (-4 * np.pi * self.R ** 3 + 3 * self.V) / (3 * np.pi * self.R ** 2)
 
@@ -37,6 +37,9 @@ class FuelTank:
     def p4(self):
         self.attachments_mass = MassOfAttachments4.calc_mass(self.compressive_load, self.n_attachments)
 
+    def massCalc(self):
+        self.mass = TotalMassCalc.main(self.material, self.R, self.L, self.t1, self.t2, self.attachments_mass)
+
 
 
 class Spacecraft:
@@ -56,6 +59,7 @@ def iteration(tank: FuelTank):
     tank.p2()
     tank.p3()
     tank.p4_find_n()
+    tank.massCalc()
 
 
 if __name__ == '__main__':
