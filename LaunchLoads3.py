@@ -19,3 +19,11 @@ def shell(material: str, p, R, L, t1, h):
     crit_stress = (1.983-0.983*exp(-23.14*Q)) * k * pi**2*E/(12*(1-v**2)) * (t1/L)**2
 
     return crit_stress
+
+def launch_loads(m, a, R, t):
+    F = m*a
+    A = 2*pi*R*t
+
+    stress = F/A
+
+    return stress
