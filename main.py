@@ -28,9 +28,8 @@ class FuelTank:
         self.t2 = (self.P*self.R)/(2*mp.Yield_stress(self.material)*10**6)
 
     def p3a(self):
-        self.column_buckling_stress, fail = LaunchLoads3a.main(self.material, self.R, self.L, self.t1)
-        if fail:
-            print("fail!")
+        self.sigma_cr_column_buckling = LaunchLoads3a.main(self.material, self.R, self.L, self.t1)
+
 
 
 class Spacecraft:
