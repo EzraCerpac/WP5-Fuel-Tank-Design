@@ -4,7 +4,7 @@ import LaunchLoads3a, LaunchLoads3b
 
 
 class FuelTank:
-    def __init__(self, R):
+    def __init__(self, R, material):
         # 1 refers to fuel, 2 to oxidizer
         self.V1 = 0.28
         self.V2 = 0.367
@@ -19,7 +19,7 @@ class FuelTank:
         self.L = (-4 * np.pi * self.R ** 3 + 3 * self.V) / (3 * np.pi * self.R ** 2)
 
         # Material
-        self.material = "Al-2014"
+        self.material = material
 
     def p2(self):
         # t1 for cylinder, t2 for sphere in meters
@@ -41,7 +41,8 @@ class Spacecraft:
 
 def main():
     SAPPHIRE = Spacecraft()
-    tank = FuelTank(0.5)
+    # R must be smaller than 0.536 or L=0
+    tank = FuelTank(0.4, "Al-2014")
     pass
 
 
