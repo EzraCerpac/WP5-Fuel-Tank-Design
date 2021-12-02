@@ -30,7 +30,7 @@ def E_mod(material: str):
              "Composite": 110,
              "Al-7075": 71.7
              }
-    return E_mod[material]
+    return E_mod[material] * 1e6
 
 
 def Expansion_cof(material: str):
