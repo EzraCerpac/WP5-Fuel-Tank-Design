@@ -58,6 +58,7 @@ class FuelTank:
         return fail
 
     def p3(self):
+        self.n_attachments = LaunchLoads3.check_h(self.material, self.R, self.L, self.t1, self.P)
         fail, self.sigma_cr = LaunchLoads3.stress_failure_check(self.material, self.R, self.L, self.t1, self.P,
                                                            self.n_attachments, self.mass, self.a_axial)
         if fail:
@@ -102,7 +103,7 @@ def firstIteration(tank: FuelTank):
     print(f"Running Iterations for {tank.__class__.__name__}:")
     tank.p2()
     tank.p3()
-    tank.p4_find_n()
+    tank.p4()
     thicknessIteration(tank)
     tank.p6()
 

@@ -49,6 +49,15 @@ def stress_failure_check(material: str, R, L, t1, p, h, m, a):
     fail = fail_column or fail_shell
     return fail, min(column_cr, shell_cr)
 
+def check_h(material: str, R, L, t1, p):
+    lowest_sigma_cr = 1e20
+    for h in range(3, 11):
+        sigma_cr = shell(material, p, R, L, t1, h)
+        if sigma_cr < lowest_sigma_cr:
+            lowest_sigma_cr = sigma_cr
+            n_attachments = h
+    return n_attachments
+
 if __name__ == '__main__':
     for t in range(1, 100):
         print(shell("Ti-6AL", 1, 1, 1, t, 4))
