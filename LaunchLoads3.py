@@ -48,3 +48,7 @@ def stress_failure_check(material: str, R, L, t1, p, h, m, a):
     fail_shell = stress >= shell_cr
     fail = fail_column or fail_shell
     return fail, min(column_cr, shell_cr)
+
+if __name__ == '__main__':
+    for t in range(1, 100):
+        print(shell("Ti-6AL", 1, 1, 1, t, 4))

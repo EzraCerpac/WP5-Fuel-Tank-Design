@@ -41,8 +41,7 @@ class FuelTank:
         self.t2 = Pressure2.t2(self.R, self.material)
         self.t1 = Pressure2.t1(self.R, self.material, self.t2)
         # starting mass
-        self.massTank = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2)
-        self.mass=TotalMassCalc.TankFuelMass(self.massTank,self.m)
+        self.massCalc()
 
     def p2_pressure_check(self):
         t1_fail = Pressure2.Failuret1(self.t1,self.t2, self.R, self.material)
@@ -57,7 +56,22 @@ class FuelTank:
         fail, self.sigma_cr = LaunchLoads3.stress_failure_check(self.material, self.R, self.L, self.t1, self.P,
                                                            self.n_attachments, self.mass, self.a_axial)
         if fail:
-            self.t1 = LaunchLoads3.thickness_from_stress(self.mass, self.a_axial, self.R, self.sigma_cr)
+            print("\n start")
+            # self.t1 = LaunchLoads3.thickness_from_stress(self.mass, self.a_axial, self.R, self.sigma_cr)
+            t_old = 1e3
+            t_new = self.t1
+            while (abs(t_new - t_old)) / t_old > 0.001:
+                column_ratio, shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P,
+                                                           self.n_attachments, self.mass, self.a_axial)
+                print(self.t1, max(column_ratio, shell_ratio))
+                t_old = t_new
+                self.t1 = self.t1 * max(column_ratio, shell_ratio)
+                t_new = self.t1
+
+
+
+
+        self.massCalc()
         self.compressive_load = self.mass * self.a_axial
 
     def p4_find_n(self):
@@ -67,7 +81,8 @@ class FuelTank:
         self.attachments_mass = MassOfAttachments4.calc_mass(self.compressive_load, self.n_attachments)
 
     def massCalc(self):
-        self.mass = TotalMassCalc.main(self.material, self.R, self.L, self.t1, self.t2, self.attachments_mass, self.m)
+        self.massTank = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2)
+        self.mass = TotalMassCalc.TankFuelMass(self.massTank, self.m)
 
     def printAll(self):
         print("\n##########################")
