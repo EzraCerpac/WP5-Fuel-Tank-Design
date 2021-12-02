@@ -32,3 +32,12 @@ def Failuret2(t, R, material):
         return True
     else:
         return False
+
+#r = np.arange(0.1, 0.52, 0.01)
+#    x_ = []
+#    for radius in r:
+#        tank_v1 = FuelTank(radius, "Ti-6AL")
+#        tank_v1.p2()
+#        x_.append([radius, tank_v1.massTank])
+#    x_ = sorted(x_, key=lambda x:x[1])
+#    print(x_)
