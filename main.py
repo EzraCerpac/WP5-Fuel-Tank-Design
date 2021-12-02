@@ -21,7 +21,7 @@ class FuelTank:
         self.m2 = 532.47
         # Assume 1 large tank
         self.V = self.V1 + self.V2
-        self.m = self.m1 + self.m2  # is this the mass of the fuel? -Ezra
+        self.m = self.m1 + self.m2  # is this the mass of the fuel? -Ezra  yep
 
         # Definition for dimensions
         self.R = R
