@@ -12,7 +12,7 @@ class Spacecraft:
         self.a_axial = 7.5 * 9.81
         self.a_lateral = 2.5 * 9.81
 
-        self.freq = nf.NatFreq(mp.E_mod("Al-2014"), 4.5, 0.00144, 1791, 2.3/2)
+        self.freq = nf.NatFreq(mp.E_mod("Al-2024"), 4.25, 0.00144, 1791, 1.15)
 
 
 class FuelTank:
@@ -93,6 +93,7 @@ def main():
     tank_v1 = FuelTank(0.5, "Ti-6AL")
     firstIteration(tank_v1)
     tank_v1.printAll()
+    print(SAPPHIRE.freq)
 
 
 def firstIteration(tank: FuelTank):
