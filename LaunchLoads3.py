@@ -33,3 +33,18 @@ def main(material: str, R, L, t1, p, h, m, a):
     shell_ratio = launch_loads(m, a, R, t1)/shell(material, p, R, L, t1, h)
 
     return column_ratio, shell_ratio
+
+def thickness_from_stress(m, a, R, stress):
+    F = m * a
+    A = F / stress
+    t1 = A / (2*pi*R)
+    return t1
+
+def stress_failure_check(material: str, R, L, t1, p, h, m, a):
+    column_cr = column(material, R, L, t1)
+    shell_cr = shell(material, p, R, L, t1, h)
+    stress = launch_loads(m, a, R, t1)
+    fail_column = stress >= column_cr
+    fail_shell = stress >= shell_cr
+    fail = fail_column or fail_shell
+    return fail, min(column_cr, shell_cr)
