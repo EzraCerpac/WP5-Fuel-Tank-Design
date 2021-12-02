@@ -32,7 +32,7 @@ def E_mod(material: str):
 
 
 def Expansion_cof(material: str):
-    Expansion_cof = {"steel-4130": 12, # m/k  10^-6
+    Expansion_cof = {"steel-4130": 12, # m_fuel/k  10^-6
                      "steel-4340": 12.3,
                      "S 96": 12,
                      "S 99": 12,
@@ -74,6 +74,6 @@ def density(material: str):
                      "Al-2024": 2770,
                      "Al-6061": 2710,
                      "Al-7075": 2800
-                     } #kg/m^3
+                     } #kg/m_fuel^3
 
     return density[material]

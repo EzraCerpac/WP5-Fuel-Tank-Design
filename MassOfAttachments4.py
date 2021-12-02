@@ -23,8 +23,9 @@ class NoStdStreams(object):
 
 
 with NoStdStreams():
-    attachment_original_mass = attachment.findWeightAttachment()
+    attachment_original_mass = 20.29*1e-3
 
+print(f"original mass = {attachment_original_mass}")
 
 # 1
 F = sqrt(Fx**2 + Fy**2 + Fz**2)
@@ -46,7 +47,7 @@ def calc_mass(compressive_load: float, n_attachment: int):
 
 def main(compressive_load: float):
     lowest_mass = 1e10
-    for i in range(1, 11):
+    for i in range(3, 11):
         mass = calc_mass(compressive_load, i)
         if mass < lowest_mass:
             lowest_mass = mass
