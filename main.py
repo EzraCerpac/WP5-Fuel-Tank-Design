@@ -21,7 +21,7 @@ class FuelTank:
         self.m2 = 850.5
         # Assume 1 large tank
         self.V = self.V1 + self.V2
-        self.m = self.m1 + self.m2  # is this the mass of the fuel? -Ezra
+        self.m_fuel = self.m1 + self.m2  # is this the mass of the fuel? -Ezra
 
         # Definition for dimensions
         self.R = R
@@ -50,7 +50,7 @@ class FuelTank:
         if fail:
             self.t2 = Pressure2.t2(self.R, self.material)
             self.t1 = Pressure2.t1(self.R, self.material, self.t2)
-        return fail, self.t1, self.t2
+        return fail
 
     def p3(self):
         fail, self.sigma_cr = LaunchLoads3.stress_failure_check(self.material, self.R, self.L, self.t1, self.P,
@@ -70,7 +70,7 @@ class FuelTank:
 
     def massCalc(self):
         self.massTank = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2)
-        self.mass = TotalMassCalc.TankFuelMass(self.massTank, self.m)
+        self.mass = TotalMassCalc.TankFuelMass(self.massTank, self.m_fuel)
 
     def printAll(self):
         print("\n##########################")
@@ -102,7 +102,6 @@ def thicknessIteration(tank: FuelTank):
     fail = True
     while fail:
         number_of_iterations += 1
-        print("thickness")
         tank.massCalc()
         starting_mass = tank.mass
         tank.p3()
@@ -119,7 +118,6 @@ def massIteration(tank: FuelTank, old_mass, new_mass):
     number_of_iterations = 1
     while (abs(new_mass - old_mass)) / old_mass > 0.001:
         number_of_iterations += 1
-        print("mass")
         old_mass = new_mass
         tank.p3()
         tank.p4()
