@@ -44,3 +44,12 @@ def Failuret2(t, R, material):
 #        x_.append([radius, tank_v1.massTank])
 #    x_ = sorted(x_, key=lambda x:x[1])
 #    print(x_)
+
+#t2=t2(0.5,"Al-2014")
+#print(t2)
+#t1=t1(0.5,"Al-2014",t2)
+#print(t1)
+#ft1=Failuret1(t1,t2+0.001,0.5,"Al-2014")
+#print(ft1)
+#ft2=Failuret2(t2,0.5,"Al-2014")
+#print(ft2)

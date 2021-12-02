@@ -1,6 +1,7 @@
 import numpy as np
-import MaterialProperties as mp
 import Pressure2, LaunchLoads3, MassOfAttachments4, TotalMassCalc
+import NaturalFreq6 as nf
+import MaterialProperties as mp
 
 
 class Spacecraft:
@@ -10,6 +11,8 @@ class Spacecraft:
 
         self.a_axial = 7.5 * 9.81
         self.a_lateral = 2.5 * 9.81
+
+        self.freq = nf.SimplifiedNatFreq(mp.E_mod("Al-2024"), 4.25, 0.00144, 1791, 1.15)
 
 
 class FuelTank:
@@ -69,6 +72,9 @@ class FuelTank:
     def p4(self):
         self.attachments_mass = MassOfAttachments4.calc_mass(self.compressive_load, self.n_attachments)
 
+    def p6(self):
+        self.freq=nf.DistNatFreq(mp.E_mod(self.material), self.L, self.t1, self.mass, self.R)
+
     def massCalc(self):
         self.massTank = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2)
         self.mass = TotalMassCalc.totalMass(self.material, self.R, self.L, self.t1, self.t2, self.attachments_mass,
@@ -85,10 +91,11 @@ class FuelTank:
 
 def main():
     SAPPHIRE = Spacecraft()
-    # R must be smaller than 0.536 or L=0
-    tank_v1 = FuelTank(0.4, "Ti-6AL")
+    # R must be smaller than 0.536 or L=0 (0.5 is the best)
+    tank_v1 = FuelTank(0.5, "Ti-6AL")
     firstIteration(tank_v1)
     tank_v1.printAll()
+    print(SAPPHIRE.freq)
 
 
 def firstIteration(tank: FuelTank):
@@ -108,12 +115,12 @@ def thicknessIteration(tank: FuelTank):
         starting_mass = tank.mass
         tank.p3()
         tank.p4()
+        tank.p6()
         tank.massCalc()
         new_mass = tank.mass
         massIteration(tank, starting_mass, new_mass)
         fail = tank.p2_pressure_check()
     print(f"\nRan the thickness iteration {number_of_iterations} times")
-
 
 
 def massIteration(tank: FuelTank, old_mass, new_mass):
@@ -123,6 +130,7 @@ def massIteration(tank: FuelTank, old_mass, new_mass):
         old_mass = new_mass
         tank.p3()
         tank.p4()
+        tank.p6()
         tank.massCalc()
         new_mass = tank.mass
         print(tank.mass, tank.sigma_cr)
