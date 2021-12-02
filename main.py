@@ -72,7 +72,7 @@ class FuelTank:
         self.attachments_mass = MassOfAttachments4.calc_mass(self.compressive_load, self.n_attachments)
 
     def p6(self):
-        self.freq=nf.NatFreq(mp.E_mod(tank.material), tank.L, tank.t1, tank.mass, tank.R)
+        self.freq=nf.NatFreq(mp.E_mod(self.material), self.L, self.t1, self.mass, self.R)
 
     def massCalc(self):
         self.massTank = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2)
