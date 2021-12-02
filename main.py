@@ -48,8 +48,8 @@ class FuelTank:
         t2_fail = Pressure2.Failuret1(self.t2, self.R, self.material)
         fail = t1_fail or t2_fail
         if fail:
-            self.t1 = Pressure2.t1(self.R, self.material)
             self.t2 = Pressure2.t2(self.R, self.material)
+            self.t1 = Pressure2.t1(self.R, self.material, self.t2)
         return fail, self.t1, self.t2
 
     def p3(self):
@@ -71,7 +71,12 @@ def main():
     SAPPHIRE = Spacecraft()
     # R must be smaller than 0.536 or L=0 (0.5 is the best)
     tank_v1 = FuelTank(0.5, "Ti-6AL")
-    firstIteration(tank_v1)
+    tank_v1.p2()
+    print(tank_v1.L,
+    tank_v1.massTank,
+    tank_v1.t1,
+    tank_v1.t2)
+    #firstIteration(tank_v1)
 
 
 def firstIteration(tank: FuelTank):
