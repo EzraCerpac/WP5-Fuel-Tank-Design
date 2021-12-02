@@ -17,5 +17,5 @@ def tankMass(material: str, R, L, t1, t2, mass_fuel):
 
 def main(material: str, R, L, t1, t2, attachments_mass, mass_fuel):
     mass_tank = tankMass(material, R, L, t1, t2, mass_fuel)
-    total_mass = mass_tank + attachments_mass
+    total_mass = mass_tank  # + attachments_mass
     return total_mass

@@ -50,14 +50,14 @@ class FuelTank:
         if fail:
             self.t1 = Pressure2.t1(self.R, self.material)
             self.t2 = Pressure2.t2(self.R, self.material)
-            print(self.t1)
+            #print(self.t1)
         return fail
 
     def p3(self):
-        fail, sigma_cr = LaunchLoads3.stress_failure_check(self.material, self.R, self.L, self.t1, self.P,
+        fail, self.sigma_cr = LaunchLoads3.stress_failure_check(self.material, self.R, self.L, self.t1, self.P,
                                                            self.n_attachments, self.mass, self.a_axial)
         if fail:
-            self.t1 = LaunchLoads3.thickness_from_stress(self.mass, self.a_axial, self.R, sigma_cr)
+            self.t1 = LaunchLoads3.thickness_from_stress(self.mass, self.a_axial, self.R, self.sigma_cr)
         self.compressive_load = self.mass * self.a_axial
 
 
@@ -117,7 +117,7 @@ def massIteration(tank: FuelTank, old_mass, new_mass):
         tank.p4()
         tank.massCalc()
         new_mass = tank.mass
-        print(f"MassIteration. Thickness = {tank.t1}")
+        print(tank.mass, tank.sigma_cr)
 
 
 
