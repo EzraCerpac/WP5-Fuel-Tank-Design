@@ -1,5 +1,7 @@
 import numpy as np
 import Pressure2, LaunchLoads3, MassOfAttachments4, TotalMassCalc
+import NaturalFreq6 as nf
+import MaterialProperties as mp
 
 
 class Spacecraft:
@@ -41,10 +43,10 @@ class FuelTank:
         self.t1 = Pressure2.t1(self.R, self.material, self.t2)
         # starting mass
         self.massTank = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2)
-        self.massTankFuel=TotalMassCalc.TankFuelMass(self.massTank,self.m)
+        self.massTankFuel = TotalMassCalc.TankFuelMass(self.massTank, self.m)
 
     def p2_pressure_check(self):
-        t1_fail = Pressure2.Failuret1(self.t1,self.t2, self.R, self.material)
+        t1_fail = Pressure2.Failuret1(self.t1, self.t2, self.R, self.material)
         t2_fail = Pressure2.Failuret1(self.t2, self.R, self.material)
         fail = t1_fail or t2_fail
         if fail:
@@ -69,18 +71,15 @@ class FuelTank:
 
 def main():
     SAPPHIRE = Spacecraft()
+    SAPPHIREfreq = nf.NatFreq(mp.E_mod("Al-2014"), 4.5, 0.00144, 1791, 2.3/2)
     # R must be smaller than 0.536 or L=0 (0.5 is the best)
     tank_v1 = FuelTank(0.5, "Ti-6AL")
-    tank_v1.p2()
-    print(tank_v1.L,
-    tank_v1.massTank,
-    tank_v1.t1,
-    tank_v1.t2)
-    #firstIteration(tank_v1)
+    firstIteration(tank_v1)
 
 
 def firstIteration(tank: FuelTank):
     tank.p2()
+    Tankfreq = nf.NatFreq(mp.E_mod(tank.material), tank.L, tank.t1, tank.mass, tank.R)
     tank.p3()
     tank.p4_find_n()
     thicknessIteration(tank)
