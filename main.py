@@ -22,7 +22,7 @@ class FuelTank:
         self.m2 = 850.5
         # Assume 1 large tank
         self.V = self.V1 + self.V2
-        self.m = self.m1 + self.m2  # is this the mass of the fuel? -Ezra
+        self.m_fuel = self.m1 + self.m2  # is this the mass of the fuel? -Ezra
 
         # Definition for dimensions
         self.R = R
@@ -51,7 +51,7 @@ class FuelTank:
         if fail:
             self.t2 = Pressure2.t2(self.R, self.material)
             self.t1 = Pressure2.t1(self.R, self.material, self.t2)
-        return fail, self.t1, self.t2
+        return fail
 
     def p3(self):
         fail, self.sigma_cr = LaunchLoads3.stress_failure_check(self.material, self.R, self.L, self.t1, self.P,
@@ -60,7 +60,6 @@ class FuelTank:
             column_ratio, shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P,
                                                           self.n_attachments, self.mass, self.a_axial)
             self.t1 = self.t1 * max(column_ratio, shell_ratio) * 1.001
-            print(self.t1)
         self.massCalc()
         self.compressive_load = self.mass * self.a_axial
 
@@ -72,7 +71,7 @@ class FuelTank:
 
     def massCalc(self):
         self.massTank = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2)
-        self.mass = TotalMassCalc.TankFuelMass(self.massTank, self.m)
+        self.mass = TotalMassCalc.TankFuelMass(self.massTank, self.m_fuel)
 
     def printAll(self):
         print("\n##########################")
@@ -93,6 +92,7 @@ def main():
 
 
 def firstIteration(tank: FuelTank):
+    print(f"Running Iterations for {tank.__class__.__name__}:\n")
     tank.p2()
     Tankfreq = nf.NatFreq(mp.E_mod(tank.material), tank.L, tank.t1, tank.mass, tank.R)
     tank.p3()
@@ -101,9 +101,10 @@ def firstIteration(tank: FuelTank):
 
 
 def thicknessIteration(tank: FuelTank):
+    number_of_iterations = 1
     fail = True
     while fail:
-        print("thickness")
+        number_of_iterations += 1
         tank.massCalc()
         starting_mass = tank.mass
         tank.p3()
@@ -112,18 +113,21 @@ def thicknessIteration(tank: FuelTank):
         new_mass = tank.mass
         massIteration(tank, starting_mass, new_mass)
         fail = tank.p2_pressure_check()
+    print(f"\nRan the thickness iteration {number_of_iterations} times")
 
 
 
 def massIteration(tank: FuelTank, old_mass, new_mass):
+    number_of_iterations = 1
     while (abs(new_mass - old_mass)) / old_mass > 0.001:
-        print("mass")
+        number_of_iterations += 1
         old_mass = new_mass
         tank.p3()
         tank.p4()
         tank.massCalc()
         new_mass = tank.mass
         print(tank.mass, tank.sigma_cr)
+    print(f"\n  Ran the mass iteration {number_of_iterations} times")
 
 
 if __name__ == '__main__':
