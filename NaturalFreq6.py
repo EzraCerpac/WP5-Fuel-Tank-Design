@@ -9,6 +9,6 @@ def SimplifiedNatFreq(E, L, t, m, r):
 
 def DistNatFreq(E, L, t, m, r):
     A = np.pi * 2 * r * t
-    k = (2 * A * E) / L
+    k = (A * E) / L
     Fn = 1 / 4 * np.sqrt(k / m)
     return Fn
