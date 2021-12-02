@@ -73,7 +73,7 @@ class FuelTank:
         self.attachments_mass = MassOfAttachments4.calc_mass(self.compressive_load, self.n_attachments)
 
     def p6(self):
-        self.freq=nf.DistNatFreq(mp.E_mod(self.material), self.L, self.t1, self.mass, self.R)
+        self.freq = nf.DistNatFreq(mp.E_mod(self.material), self.L, self.t1, self.mass, self.R)
 
     def massCalc(self):
         self.massTank = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2)
@@ -104,6 +104,7 @@ def firstIteration(tank: FuelTank):
     tank.p3()
     tank.p4_find_n()
     thicknessIteration(tank)
+    tank.p6()
 
 
 def thicknessIteration(tank: FuelTank):
@@ -115,7 +116,6 @@ def thicknessIteration(tank: FuelTank):
         starting_mass = tank.mass
         tank.p3()
         tank.p4()
-        tank.p6()
         tank.massCalc()
         new_mass = tank.mass
         massIteration(tank, starting_mass, new_mass)
@@ -130,7 +130,6 @@ def massIteration(tank: FuelTank, old_mass, new_mass):
         old_mass = new_mass
         tank.p3()
         tank.p4()
-        tank.p6()
         tank.massCalc()
         new_mass = tank.mass
         print(tank.mass, tank.sigma_cr)
