@@ -1,6 +1,7 @@
 import numpy as np
 import MaterialProperties as mp
 import LaunchLoads3, MassOfAttachments4, TotalMassCalc
+import Pressure2 as p2
 
 
 class Spacecraft:
@@ -38,8 +39,8 @@ class FuelTank:
     def p2(self):
         # t1 for cylinder, t2 for sphere in meters
         self.P = 18.5e5
-        self.t1 = (self.P*self.R)/(mp.Yield_stress(self.material)*10**6)
-        self.t2 = (self.P*self.R)/(2*mp.Yield_stress(self.material)*10**6)
+        self.t1 = p2.t1(self.R, self.material)
+        self.t2 = p2.t2(self.R, self.material)
         # starting mass
         self.mass = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2, self.m)
 
