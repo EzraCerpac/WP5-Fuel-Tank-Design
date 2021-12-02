@@ -4,14 +4,15 @@ import MaterialProperties as mp
 P = 18.5e5
 
 
-def t1(R, material):
-    t1 = (P * R) / (mp.Yield_stress(material) * 10 ** 6)
-    return t1
-
 
 def t2(R, material):
     t2 = (P * R) / (2 * mp.Yield_stress(material) * 10 ** 6)
     return t2
+
+def t1(t2, material):
+    #t1 = (P * R) / (mp.Yield_stress(material) * 10 ** 6)
+    t1 = t2 * (1/(1-mp.Poisson_ratio(material)) + 1)
+    return t1
 
 
 def Failuret1(t, R, material):
