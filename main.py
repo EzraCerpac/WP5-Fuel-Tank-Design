@@ -44,8 +44,13 @@ class FuelTank:
         self.mass = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2, self.m)
 
     def p2_pressure_check(self):
-        if __name__ == '__main__':
-            return Pressure2.main()
+        t1_fail = Pressure2.Failuret1(self.t1, self.R, self.material)
+        t2_fail = Pressure2.Failuret1(self.t2, self.R, self.material)
+        fail = t1_fail or t2_fail
+        if fail:
+            self.t1 = Pressure2.t1(self.R, self.material)
+            self.t2 = Pressure2.t2(self.R, self.material)
+        return fail, self.t1, self.t2
 
     def p3(self):
         self.column_ratio, self.shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P,
@@ -90,7 +95,7 @@ def thicknessIteration(tank: FuelTank):
         massIteration(tank, starting_mass, new_mass)
 
         result = tank.p2_pressure_check()
-        run = result[0]
+        run = not result[0]
         tank.t1, tank.t2 = result[1], result[2]
 
 
