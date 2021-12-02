@@ -72,10 +72,10 @@ def main():
     # R must be smaller than 0.536 or L=0 (0.5 is the best)
     tank_v1 = FuelTank(0.5, "Ti-6AL")
     tank_v1.p2()
-    print(tank_v1.L,
-    tank_v1.massTank,
-    tank_v1.t1,
-    tank_v1.t2)
+    print("tank length:", tank_v1.L, #Tank length
+    ". tank mass:", tank_v1.massTank,
+    ". tank t1:", tank_v1.t1,
+    ". tank t2:", tank_v1.t2)
     #firstIteration(tank_v1)
 
 
