@@ -18,7 +18,7 @@ def t2(R, material):
 
 def Failuret1(t1, t2, R, material):
     # Given certain parameters, it says if t is enough or not. True means failure
-    sigma1 = (P * R) / t
+    sigma1 = (P * R) / t1
     m_yield = mp.Yield_stress(material) * 10 ** 6
     tmin = t2 * (1 / (1 - mp.Poisson_ratio(material)) + 1)
     if sigma1 > m_yield or t1 < tmin:
