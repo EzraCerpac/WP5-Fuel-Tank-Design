@@ -1,6 +1,6 @@
 from ForcesAndMoments import Fx, Fy, Fz
 from math import sqrt
-from Attachment import main as attachment
+# from Attachment import main as attachment
 import sys, os
 
 
@@ -25,7 +25,6 @@ class NoStdStreams(object):
 with NoStdStreams():
     attachment_original_mass = 20.29*1e-3
 
-print(f"original mass = {attachment_original_mass}")
 
 # 1
 F = sqrt(Fx**2 + Fy**2 + Fz**2)

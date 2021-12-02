@@ -32,8 +32,10 @@ class FuelTank:
 
         self.n_attachments = 4  # Random starting value
 
+        # spacecraft values
         self.a_axial = 7.5 * 9.81
         self.a_lateral = 2.5 * 9.81
+        self.sc_mass_without_tank = 1791.37 - 246.52 - 532.47 - 7.52 - 19.09
 
     def p2(self):
         # t1 for cylinder, t2 for sphere in meters
@@ -41,7 +43,7 @@ class FuelTank:
         self.t2 = Pressure2.t2(self.R, self.material)
         self.t1 = Pressure2.t1(self.R, self.material, self.t2)
         # starting mass
-        self.massCalc()
+        self.mass = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2) + self.sc_mass_without_tank
 
     def p2_pressure_check(self):
         t1_fail = Pressure2.Failuret1(self.t1, self.t2, self.R, self.material)
@@ -59,7 +61,6 @@ class FuelTank:
             column_ratio, shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P,
                                                           self.n_attachments, self.mass, self.a_axial)
             self.t1 = self.t1 * max(column_ratio, shell_ratio) * 1.001
-        self.massCalc()
         self.compressive_load = self.mass * self.a_axial
 
     def p4_find_n(self):
@@ -70,7 +71,8 @@ class FuelTank:
 
     def massCalc(self):
         self.massTank = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2)
-        self.mass = TotalMassCalc.TankFuelMass(self.massTank, self.m_fuel)
+        self.mass = TotalMassCalc.totalMass(self.material, self.R, self.L, self.t1, self.t2, self.attachments_mass,
+                                            self.m_fuel, self.sc_mass_without_tank)
 
     def printAll(self):
         print("\n##########################")
@@ -90,7 +92,7 @@ def main():
 
 
 def firstIteration(tank: FuelTank):
-    print(f"Running Iterations for {tank.__class__.__name__}:\n")
+    print(f"Running Iterations for {tank.__class__.__name__}:")
     tank.p2()
     tank.p3()
     tank.p4_find_n()
@@ -98,7 +100,7 @@ def firstIteration(tank: FuelTank):
 
 
 def thicknessIteration(tank: FuelTank):
-    number_of_iterations = 1
+    number_of_iterations = 0
     fail = True
     while fail:
         number_of_iterations += 1
