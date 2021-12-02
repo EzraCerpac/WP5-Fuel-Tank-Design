@@ -37,14 +37,14 @@ class FuelTank:
     def p2(self):
         # t1 for cylinder, t2 for sphere in meters
         self.P = 18.5e5
-        self.t1 = Pressure2.t1(self.R, self.material)
         self.t2 = Pressure2.t2(self.R, self.material)
+        self.t1 = Pressure2.t1(self.R, self.material, self.t2)
         # starting mass
         self.massTank = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2)
         self.massTankFuel=TotalMassCalc.TankFuelMass(self.massTank,self.m)
 
     def p2_pressure_check(self):
-        t1_fail = Pressure2.Failuret1(self.t1, self.R, self.material)
+        t1_fail = Pressure2.Failuret1(self.t1,self.t2, self.R, self.material)
         t2_fail = Pressure2.Failuret1(self.t2, self.R, self.material)
         fail = t1_fail or t2_fail
         if fail:
