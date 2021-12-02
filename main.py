@@ -1,5 +1,4 @@
 import numpy as np
-import MaterialProperties as mp
 import Pressure2, LaunchLoads3, MassOfAttachments4, TotalMassCalc
 
 
@@ -30,7 +29,7 @@ class FuelTank:
         # Material
         self.material = material
 
-        self.n_attachments = 4 # Random starting value
+        self.n_attachments = 4  # Random starting value
 
         self.a_axial = 7.5 * 9.81
         self.a_lateral = 2.5 * 9.81
@@ -41,15 +40,16 @@ class FuelTank:
         self.t1 = Pressure2.t1(self.R, self.material)
         self.t2 = Pressure2.t2(self.R, self.material)
         # starting mass
-        self.mass = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2, self.m)
+        self.massTank = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2)
+        self.massTankFuel=TotalMassCalc.TankFuelMass(self.massTank,self.m)
 
     def p2_pressure_check(self):
         t1_fail = Pressure2.Failuret1(self.t1, self.R, self.material)
         t2_fail = Pressure2.Failuret1(self.t2, self.R, self.material)
         fail = t1_fail or t2_fail
         if fail:
-            self.t1 = Pressure2.t1(self.R, self.material)
             self.t2 = Pressure2.t2(self.R, self.material)
+            self.t1 = Pressure2.t1(self.R, self.material, self.t2)
         return fail, self.t1, self.t2
 
     def p3(self):
@@ -67,12 +67,16 @@ class FuelTank:
         self.mass = TotalMassCalc.main(self.material, self.R, self.L, self.t1, self.t2, self.attachments_mass, self.m)
 
 
-
 def main():
     SAPPHIRE = Spacecraft()
-    # R must be smaller than 0.536 or L=0
-    tank_v1 = FuelTank(0.4, "Ti-6AL")
-    firstIteration(tank_v1)
+    # R must be smaller than 0.536 or L=0 (0.5 is the best)
+    tank_v1 = FuelTank(0.5, "Ti-6AL")
+    tank_v1.p2()
+    print(tank_v1.L,
+    tank_v1.massTank,
+    tank_v1.t1,
+    tank_v1.t2)
+    #firstIteration(tank_v1)
 
 
 def firstIteration(tank: FuelTank):
@@ -99,7 +103,6 @@ def thicknessIteration(tank: FuelTank):
         tank.t1, tank.t2 = result[1], result[2]
 
 
-
 def massIteration(tank: FuelTank, old_mass, new_mass):
     while (abs(new_mass - old_mass)) / old_mass > 0.001:
         old_mass = new_mass
@@ -107,7 +110,6 @@ def massIteration(tank: FuelTank, old_mass, new_mass):
         tank.p4()
         tank.massCalc()
         new_mass = tank.mass
-
 
 
 if __name__ == '__main__':
