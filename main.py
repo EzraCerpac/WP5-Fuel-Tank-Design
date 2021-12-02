@@ -1,6 +1,6 @@
 import numpy as np
 import MaterialProperties as mp
-import LaunchLoads3, MassOfAttachments4, TotalMassCalc
+import Pressure2, LaunchLoads3, MassOfAttachments4, TotalMassCalc
 
 
 class Spacecraft:
@@ -43,6 +43,10 @@ class FuelTank:
         # starting mass
         self.mass = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2, self.m)
 
+    def p2_pressure_check(self):
+        if __name__ == '__main__':
+            return Pressure2.main()
+
     def p3(self):
         self.column_ratio, self.shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P,
                                                                 self.n_attachments, self.mass, self.a_axial)
@@ -68,12 +72,27 @@ def main():
 
 def firstIteration(tank: FuelTank):
     tank.p2()
-    starting_mass = tank.mass
     tank.p3()
     tank.p4_find_n()
-    tank.massCalc()
-    mass_with_attachments_1 = tank.mass
-    massIteration(tank, starting_mass, mass_with_attachments_1)
+    thicknessIteration(tank)
+
+
+def thicknessIteration(tank: FuelTank):
+    run = True
+    while run:
+        tank.massCalc()
+        starting_mass = tank.mass
+        tank.p3()
+        tank.p4()
+        tank.massCalc()
+        new_mass = tank.mass
+
+        massIteration(tank, starting_mass, new_mass)
+
+        result = tank.p2_pressure_check()
+        run = result[0]
+        tank.t1, tank.t2 = result[1], result[2]
+
 
 
 def massIteration(tank: FuelTank, old_mass, new_mass):
