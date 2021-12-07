@@ -44,14 +44,15 @@ def stress_failure_check(material: str, R, L, t1, p, h, m, a):
     column_cr = column(material, R, L, t1)
     shell_cr = shell(material, p, R, L, t1, h)
     stress = launch_loads(m, a, R, t1)
-    fail_column = stress >= column_cr
-    fail_shell = stress >= shell_cr
-    fail = fail_column or fail_shell
-    return fail, min(column_cr, shell_cr)
+
+    allowable = min(column_cr, shell_cr)
+    MS = allowable / stress - 1
+    iterate = MS < 0 or MS > 1
+    return iterate, allowable
 
 def check_h(material: str, R, L, t1, p):
     lowest_sigma_cr = 1e20
-    for h in range(3, 11):
+    for h in range(3, 7000):
         sigma_cr = shell(material, p, R, L, t1, h)
         if sigma_cr < lowest_sigma_cr:
             lowest_sigma_cr = sigma_cr

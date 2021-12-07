@@ -24,7 +24,7 @@ class FuelTank:
         self.m2 = 850.5
         # Assume 1 large tank
         self.V = self.V1 + self.V2
-        self.m_fuel = self.m1 + self.m2  # is this the mass of the fuel? -Ezra
+        self.m_fuel = self.m1 + self.m2
 
         # Definition for dimensions
         self.R = R
@@ -59,16 +59,17 @@ class FuelTank:
 
     def p3(self):
         self.n_attachments = LaunchLoads3.check_h(self.material, self.R, self.L, self.t1, self.P)
-        fail, self.sigma_cr = LaunchLoads3.stress_failure_check(self.material, self.R, self.L, self.t1, self.P,
-                                                           self.n_attachments, self.mass, self.a_axial)
-        if fail:
-            column_ratio, shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P,
-                                                          self.n_attachments, self.mass, self.a_axial)
-            self.t1 = self.t1 * max(column_ratio, shell_ratio) * 1.001
+        change, self.sigma_cr = LaunchLoads3.stress_failure_check(self.material, self.R, self.L, self.t1, self.P,
+                                                                  self.n_attachments, self.mass, self.a_axial)
+        # if change:
+        #     column_ratio, shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P,
+        #                                                   self.n_attachments, self.mass, self.a_axial)
+        #     self.R = self.R * np.sqrt(max(column_ratio, shell_ratio))
+        #     self.L = (-4 * np.pi * self.R ** 3 + 3 * self.V) / (3 * np.pi * self.R ** 2) + 2 * self.R
         self.compressive_load = self.mass * self.a_axial
 
-    def p4_find_n(self):
-        self.n_attachments, self.attachments_mass = MassOfAttachments4.main(self.compressive_load)
+    # def p4_find_n(self):
+    #     self.n_attachments, self.attachments_mass = MassOfAttachments4.main(self.compressive_load)
 
     def p4(self):
         self.attachments_mass = MassOfAttachments4.calc_mass(self.compressive_load, self.n_attachments)
@@ -111,7 +112,7 @@ def firstIteration(tank: FuelTank):
 def thicknessIteration(tank: FuelTank):
     number_of_iterations = 0
     fail = True
-    while fail:
+    while fail or number_of_iterations < 2:
         number_of_iterations += 1
         tank.massCalc()
         starting_mass = tank.mass
@@ -133,8 +134,8 @@ def massIteration(tank: FuelTank, old_mass, new_mass):
         tank.p4()
         tank.massCalc()
         new_mass = tank.mass
-        print(tank.mass, tank.sigma_cr)
     print(f"\n  Ran the mass iteration {number_of_iterations} times")
+    tank.p2()
 
 
 if __name__ == '__main__':
