@@ -13,7 +13,7 @@ class FuelTank:
         # Assume 1 large tank
         self.V = self.V1 + self.V2
         self.m = self.m1 + self.m2
-        # Definition for dimentions
+        # Definition for dimensions
         self.R = R
         self.L = (-4 * np.pi * self.R ** 3 + 3 * self.V) / (3 * np.pi * self.R ** 2)
 
