@@ -126,7 +126,7 @@ def thicknessIteration(tank: FuelTank):
 
 def massIteration(tank: FuelTank, old_mass, new_mass):
     number_of_iterations = 1
-    while (abs(new_mass - old_mass)) / old_mass > 0.001:
+    while (abs(new_mass - old_mass)) / old_mass > 0.0001:
         number_of_iterations += 1
         old_mass = new_mass
         tank.p3()
