@@ -16,7 +16,7 @@ def F_bry(material: str):
 
 
 def E_mod(material: str):
-    E_mod = {"steel-4130": 205, #Gpa
+    E_mod = {"steel-4130": 205,  # Gpa
              "steel-4340": 200,
              "S 96": 200,
              "S 99": 200,
@@ -26,13 +26,15 @@ def E_mod(material: str):
              "Al-2014": 73,
              "Al-2024": 73.1,
              "Al-6061": 68,
+             "Ti-6AL": 104,
+             "Composite": 110,
              "Al-7075": 71.7
              }
-    return E_mod[material]
+    return E_mod[material] * 1e9
 
 
 def Expansion_cof(material: str):
-    Expansion_cof = {"steel-4130": 12, # m/k  10^-6
+    Expansion_cof = {"steel-4130": 12,  # m_fuel/k  10^-6
                      "steel-4340": 12.3,
                      "S 96": 12,
                      "S 99": 12,
@@ -46,50 +48,57 @@ def Expansion_cof(material: str):
                      }
     return Expansion_cof[material]
 
+
 def Yield_stress(material: str):
     Yield_stress = {"steel-4130": 483,
-                     "steel-4340": 1496,
-                     "S 96": 680,
-                     "S 99": 1080,
-                     "S 510": 255,
-                     "S 514": 630,
-                     "T 45": 620,
-                     "Al-2014": 324,
-                     "Al-2024": 200,
-                     "Al-6061": 83,
-                     "Al-7075": 303
-                     } #MPa
+                    "steel-4340": 1496,
+                    "S 96": 680,
+                    "S 99": 1080,
+                    "S 510": 255,
+                    "S 514": 630,
+                    "T 45": 620,
+                    "Al-2014": 324,
+                    "Al-2024": 200,
+                    "Al-6061": 83,
+                    "Ti-6AL": 880,
+                    "Composite": 825,
+                    "Al-7075": 303
+                    }  # MPa
     return Yield_stress[material]
 
 
-def Critical_stress(material: str): # Still random values !
-    critical_stress = {"steel-4130": 483,
-                     "steel-4340": 1496,
-                     "S 96": 680,
-                     "S 99": 1080,
-                     "S 510": 255,
-                     "S 514": 630,
-                     "T 45": 620,
-                     "Al-2014": 324,
-                     "Al-2024": 200,
-                     "Al-6061": 83,
-                     "Al-7075": 303
-                     } #MPa
-    return critical_stress[material]
-
-
 def density(material: str):
-    density = {      "steel-4130": 7830,
-                     "steel-4340": 7830,
-                     "S 96": 7860,
-                     "S 99": 7860,
-                     "S 510": 7920,
-                     "S 514": 7890,
-                     "T 45": 7890,
-                     "Al-2014": 2800,
-                     "Al-2024": 2770,
-                     "Al-6061": 2710,
-                     "Al-7075": 2800
-                     } #kg/m^3
+    density = {"steel-4130": 7830,
+               "steel-4340": 7830,
+               "S 96": 7860,
+               "S 99": 7860,
+               "S 510": 7920,
+               "S 514": 7890,
+               "T 45": 7890,
+               "Al-2014": 2800,
+               "Al-2024": 2770,
+               "Al-6061": 2710,
+               "Ti-6AL": 4429,
+               "Composite": 1550,
+               "Al-7075": 2800
+               }  # kg/m_fuel^3
 
     return density[material]
+
+
+def Poisson_ratio(material: str):
+    ratio = {"steel-4130": 0.3,
+             "steel-4340": 0.3,
+             "S 96": 0.3,
+             "S 99": 0.3,
+             "S 510": 0.3,
+             "S 514": 0.3,
+             "T 45": 0.34,
+             "Ti-6AL": 0.34,
+             "Al-2014": 0.33,
+             "Al-2024": 0.33,
+             "Al-6061": 0.33,
+             "Al-7075": 0.33
+             }  # kg/m_fuel^3
+
+    return ratio[material]
