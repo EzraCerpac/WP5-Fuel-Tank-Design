@@ -46,7 +46,8 @@ class FuelTank:
         self.t2 = Pressure2.t2(self.R, self.material)
         self.t1 = Pressure2.t1(self.R, self.material, self.t2)
         # starting mass
-        self.mass = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2) + self.sc_mass_without_tank
+        self.mass = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2) + self.sc_mass_without_tank + self.m_fuel
+
 
     def p2_pressure_check(self):
         t1_fail = Pressure2.Failuret1(self.t1, self.t2, self.R, self.material)
