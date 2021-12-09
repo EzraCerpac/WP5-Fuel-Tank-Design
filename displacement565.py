@@ -14,17 +14,17 @@ labda = 1
 
 #calculating the amplitude
 def a(wn):
-    a = (Xb * (wn ** 2)) / ((wn ** 2) - (wb ** 2))
+    a = (Xb) / ((wn ** 2) - (wb ** 2))
     return a
 
 
 #particular, general and total solution
 
 def total_solution(t,wb,a,wn):
-    xt = sin(512*t) + cos(512 * t) - 17.2723 *sin(116.319*t) *cos(512*t) - 17.2723*sin(512*t) *cos(116.319*t) - 1.76187*sin(512*t)* cos(1140.32*t) + 1.76187*sin(1140.32*t)* cos(512*t)
-    #xh = -(wn*Xb)/((wn**2) - (wb**2)) * sin(wb*t)*tan(wn*t)
-    #xp = a * sin(wb * t)
-    #xt = xp + xh
+    #xt = sin(512*t) + cos(512 * t) - 17.2723 *sin(116.319*t) *cos(512*t) - 17.2723*sin(512*t) *cos(116.319*t) - 1.76187*sin(512*t)* cos(1140.32*t) + 1.76187*sin(1140.32*t)* cos(512*t)
+    xh = -(Xb * wn**2) / ((wn ** 2) - (wb ** 2))
+    xp = a * sin(wb * t)
+    xt = xp + xh
     return xt
 
 def wn(k,m):
