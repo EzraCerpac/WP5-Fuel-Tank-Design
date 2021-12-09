@@ -2,11 +2,12 @@ from math import exp
 from math import sqrt
 from math import sin
 from math import tan
+from math import pi
 import matplotlib.pyplot as plt
 
 #givens
 Xb = 0.8 * 9.81
-wb = 100 #got to convert from hz still
+wb = 100*pi*2
 
 labda = 1
 
