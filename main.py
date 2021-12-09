@@ -21,7 +21,7 @@ class FuelTank:
         self.V1 = 0.28
         self.V2 = 0.367
         self.m1 = 246.52 # new value
-        self.m2 = 532.47
+        self.m2 = 532.47 #new
         # Assume 1 large tank
         self.V = self.V1 + self.V2
         self.m_fuel = self.m1 + self.m2
