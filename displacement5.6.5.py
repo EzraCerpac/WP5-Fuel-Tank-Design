@@ -1,6 +1,7 @@
 from math import exp
 from math import sqrt
 from math import sin
+import
 
 #givens
 Xb = 0.8 * 9.81
