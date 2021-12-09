@@ -2,7 +2,7 @@ import numpy as np
 import Pressure2, LaunchLoads3, MassOfAttachments4, TotalMassCalc
 import NaturalFreq6 as nf
 import MaterialProperties as mp
-
+import displacement565 as dsp
 
 class Spacecraft:
     def __init__(self):
@@ -84,13 +84,19 @@ class FuelTank:
         self.attachments_mass = MassOfAttachments4.calc_mass(self.compressive_load, self.n_attachments)
 
     def p6(self):
-        self.freq = nf.DistNatFreq(mp.E_mod(self.material), self.L, self.t1, self.mass, self.R)
+        self.freq, self.k = nf.DistNatFreq(mp.E_mod(self.material), self.L, self.t1, self.mass, self.R)
 
     def massCalc(self):
         self.massTank = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1, self.t2)
         self.mass = TotalMassCalc.totalMass(self.material, self.R, self.L, self.t1, self.t2, self.attachments_mass,
                                             self.m_fuel, self.sc_mass_without_tank)
         self.mass_tank_fueled = self.m_fuel + self.massTank
+
+    def Displacement(self):
+        wn = dsp.wn(self.k, self.mass)
+        a = dsp.a(wn)
+        dsp.forloop(a)
+
 
 
     def printAll(self):
@@ -118,6 +124,7 @@ def firstIteration(tank: FuelTank):
     tank.p4()
     thicknessIteration(tank)
     tank.p6()
+    tank.Displacement()
 
 
 def thicknessIteration(tank: FuelTank):
