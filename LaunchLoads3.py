@@ -2,6 +2,7 @@ from math import pi, exp
 import MaterialProperties as mp
 
 def column(material: str, R, L, t1):
+    L = L - 2 * R
     E = mp.E_mod(material)
     I = pi * R**3 * t1
     A = 2*pi*R*t1
