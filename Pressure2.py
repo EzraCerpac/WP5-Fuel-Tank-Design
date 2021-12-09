@@ -31,7 +31,7 @@ def Failuret2(t, R, material, P):
     # Given certain parameters, it says if t is enough or not. True means failure
     sigma2 = (P * R) / (2 * t)
     m_yield = mp.Yield_stress(material) * 1e6
-    if sigma2 > m_yield:
+    if sigma2/1.001 > m_yield:
         return True
     else:
         return False
