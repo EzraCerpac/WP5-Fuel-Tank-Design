@@ -1,22 +1,22 @@
 """Calculates thickness related to the pressure"""
 import MaterialProperties as mp
 
-P = 18.5e5
 
 
-def t1(R, material, ts):
+
+def t1(R, material, ts, P):
     t_1 = (P * R) / (mp.Yield_stress(material) * 1e6)
     t_2 = ts * (1 / (1 - mp.Poisson_ratio(material)) + 1)
     t = max(t_1, t_2)
     return t
 
 
-def t2(R, material):
+def t2(R, material, P):
     t2 = (P * R) / (2 * mp.Yield_stress(material) * 1e6)
     return t2
 
 
-def Failuret1(t1, t2, R, material):
+def Failuret1(t1, t2, R, material, P):
     # Given certain parameters, it says if t is enough or not. True means failure
     sigma1 = (P * R) / t1
     m_yield = mp.Yield_stress(material) * 1e6
@@ -27,11 +27,11 @@ def Failuret1(t1, t2, R, material):
         return False
 
 
-def Failuret2(t, R, material):
+def Failuret2(t, R, material, P):
     # Given certain parameters, it says if t is enough or not. True means failure
     sigma2 = (P * R) / (2 * t)
     m_yield = mp.Yield_stress(material) * 1e6
-    if sigma2 > m_yield:
+    if sigma2/1.001 > m_yield:
         return True
     else:
         return False
