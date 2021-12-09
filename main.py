@@ -63,11 +63,15 @@ class FuelTank:
                 L = (-4 * np.pi * R ** 3 + 3 * self.V) / (3 * np.pi * R ** 2) + 2 * R
                 mass = TotalMassCalc.tankMass(self.material, R, L, self.t1,
                                               self.t2) + self.sc_mass_without_tank + self.m_fuel
-                if mass < self.mass or fail:
+                if fail:
                     self.R = R
                     self.L = L
                     self.mass = mass
-                    print(self.R, self.mass)
+                    break
+                elif mass < self.mass:
+                    self.R = R
+                    self.L = L
+                    self.mass = mass
                 else:
                     break
         self.compressive_load = self.mass * self.a_axial
@@ -109,11 +113,11 @@ def findMaterial():
 
 def main():
     # R must be smaller than 0.536 or L=0 (0.5 is the best)
-    findMaterial()
-    # tank_v1 = FuelTank(0.5, "Ti-6AL")
+    # findMaterial()
+    tank_v1 = FuelTank(0.5, "Ti-6AL")
     # tank_v2 = FuelTank(0.5, "S 99")
-    # firstIteration(tank_v1)
-    # tank_v1.printAll()
+    firstIteration(tank_v1)
+    tank_v1.printAll()
     # print(SAPPHIRE.freq)
 
 

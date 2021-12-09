@@ -47,9 +47,10 @@ def stress_failure_check(material: str, R, L, t1, p, h, m, a):
     stress = launch_loads(m, a, R, t1)
 
     allowable = min(column_cr, shell_cr)
-    MS = allowable / stress - 1
-    iterate = MS < 0 or MS > 1
-    return iterate, allowable
+    # MS = allowable / stress - 1
+    # iterate = MS < 0 or MS > 1
+    # return iterate, allowable
+    return stress > allowable, allowable
 
 def check_h(material: str, R, L, t1, p):
     lowest_sigma_cr = 1e20
