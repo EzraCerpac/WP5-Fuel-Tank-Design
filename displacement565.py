@@ -1,6 +1,7 @@
 from math import exp
 from math import sqrt
 from math import sin
+from math import tan
 import matplotlib.pyplot as plt
 
 #givens
@@ -17,8 +18,8 @@ def a(wn):
 
 #particular, general and total solution
 
-def total_solution(t,wb,a,labda):
-    xh = a * exp(labda * t)
+def total_solution(t,wb,a,labda,wn):
+    xh = (wn*Xb)/(wn**2 - wb**2) * sin(wb*t)*tan(wn*t)
     xp = a * sin(wb * t)
     xt = xp + xh
     return xt
@@ -33,7 +34,7 @@ def forloop(a):
     time = []
 
     for i in range(0, 100):
-        solution = total_solution(t, wb, a, labda)
+        solution = total_solution(t, wb, a, labda, wn)
         results.append(solution)
         time.append(t)
         t = t + 0.1

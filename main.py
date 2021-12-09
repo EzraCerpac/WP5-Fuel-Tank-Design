@@ -101,7 +101,7 @@ class FuelTank:
     def Displacement(self):
         wn = dsp.wn(self.k, self.mass)
         a = dsp.a(wn)
-        dsp.forloop(a)
+        dsp.forloop(a,wn)
 
 
 
