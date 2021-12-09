@@ -102,6 +102,7 @@ class FuelTank:
         wn = dsp.wn(self.k, self.mass)
         a = dsp.a(wn)
         dsp.forloop(a,wn)
+        dsp.forloop2(wn)
 
 
 
