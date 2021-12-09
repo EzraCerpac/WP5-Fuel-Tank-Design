@@ -22,7 +22,7 @@ def a(wn):
 
 def total_solution(t,wb,a,wn):
     #xt = sin(512*t) + cos(512 * t) - 17.2723 *sin(116.319*t) *cos(512*t) - 17.2723*sin(512*t) *cos(116.319*t) - 1.76187*sin(512*t)* cos(1140.32*t) + 1.76187*sin(1140.32*t)* cos(512*t)
-    xh = -(Xb * wn**2) / ((wn ** 2) - (wb ** 2))*sin(wn*t)
+    xh = -(Xb * wn) / ((wn ** 2) - (wb ** 2))*sin(wn*t)
     xp = a * sin(wb * t)
     xt = xp + xh
     return xt
