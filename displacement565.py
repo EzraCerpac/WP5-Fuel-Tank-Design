@@ -28,7 +28,6 @@ def total_solution(t,wb,a,wn):
 
 def wn(k,m):
     wn = sqrt(k/m)
-    print("This is omega n",wn)
     return wn
 
 def forloop(a,wn):

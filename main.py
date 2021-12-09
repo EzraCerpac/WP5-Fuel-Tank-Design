@@ -114,7 +114,7 @@ def findMaterial():
         tank = FuelTank(0.5, material)
         print(f"Running Iterations for {tank.__class__.__name__} made from {material}")
         with MassOfAttachments4.NoStdStreams():
-            firstIteration(tank)
+            Calculations(tank)
         mass_of_material.update({material: tank.mass})
     best = min(mass_of_material, key=mass_of_material.get)
     print(f"\nThe lightest tank is made out of {best} and weighs {mass_of_material[best]} kg")
@@ -125,13 +125,13 @@ def main():
     findMaterial()
     tank_v1 = FuelTank(0.5, "Ti-6AL")
     # tank_v2 = FuelTank(0.5, "S 99")
-    firstIteration(tank_v1)
+    Calculations(tank_v1)
     tank_v1.Displacement()
     tank_v1.printAll()
     # print(SAPPHIRE.freq)
 
 
-def firstIteration(tank: FuelTank):
+def Calculations(tank: FuelTank):
     print(f"\nRunning Iterations for {tank.__class__.__name__}:")
     tank.p2()
     tank.p3()
