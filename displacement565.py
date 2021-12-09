@@ -21,8 +21,7 @@ def a(wn):
 #particular, general and total solution
 
 def total_solution(t,wb,a,wn):
-    #xt = sin(512*t) + cos(512 * t) - 17.2723 *sin(116.319*t) *cos(512*t) - 17.2723*sin(512*t) *cos(116.319*t) - 1.76187*sin(512*t)* cos(1140.32*t) + 1.76187*sin(1140.32*t)* cos(512*t)
-    xh = -(Xb * wn**2) / ((wn ** 2) - (wb ** 2))*sin(wn*t)
+    xh = -(Xb * wn**2) / ((wn ** 2) - (wb ** 2))*sin(wn*t)*wb
     xp = a * sin(wb * t)
     xt = xp + xh
     return xt
@@ -37,11 +36,11 @@ def forloop(a,wn):
     results = []
     time = []
 
-    for i in range(0, 1000000):
+    for i in range(0, 100):
         solution = total_solution(t, wb, a, wn)
         results.append(solution)
         time.append(t)
-        t = t + 0.1
+        t = t + 0.001
 
     plt.plot(time, results)
     plt.show()
@@ -52,7 +51,7 @@ def forloop(a,wn):
 #changing base frequency, needs to go between 0 and 100 Hz
 
 def A(wn, wc):
-    A = (wn ** 2 * Xb) / (wn ** 2 - wc ** 2)
+    A = (Xb) / (wn ** 2 - wc ** 2)
     return A
 
 
