@@ -21,7 +21,7 @@ def a(wn):
 #particular, general and total solution
 
 def total_solution(t,wb,a,wn):
-    xh = -(Xb * wn**2) / ((wn ** 2) - (wb ** 2))*sin(wn*t)*wb
+    xh = -(Xb) / (((wn ** 2) - (wb ** 2))*wn) *sin(wn*t)*wb
     xp = a * sin(wb * t)
     xt = xp + xh
     return xt
