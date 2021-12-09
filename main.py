@@ -113,11 +113,11 @@ def findMaterial():
 
 def main():
     # R must be smaller than 0.536 or L=0 (0.5 is the best)
-    # findMaterial()
-    tank_v1 = FuelTank(0.5, "Ti-6AL")
+    findMaterial()
+    # tank_v1 = FuelTank(0.5, "Ti-6AL")
     # tank_v2 = FuelTank(0.5, "S 99")
-    firstIteration(tank_v1)
-    tank_v1.printAll()
+    # firstIteration(tank_v1)
+    # tank_v1.printAll()
     # print(SAPPHIRE.freq)
 
 
