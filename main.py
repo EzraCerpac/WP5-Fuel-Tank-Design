@@ -62,11 +62,18 @@ class FuelTank:
         self.n_attachments = LaunchLoads3.check_h(self.material, self.R, self.L, self.t1, self.P)
         change, self.sigma_cr = LaunchLoads3.stress_failure_check(self.material, self.R, self.L, self.t1, self.P,
                                                                   self.n_attachments, self.mass, self.a_axial)
-        # if change:
-        #     column_ratio, shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P,
-        #                                                   self.n_attachments, self.mass, self.a_axial)
-        #     self.R = self.R * np.sqrt(max(column_ratio, shell_ratio))
-        #     self.L = (-4 * np.pi * self.R ** 3 + 3 * self.V) / (3 * np.pi * self.R ** 2) + 2 * self.R
+        if False:
+            ratio = 0
+            while abs(ratio - 1) > 0.01:
+                column_ratio, shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P,
+                                                              self.n_attachments, self.mass, self.a_axial)
+                ratio = max(column_ratio, shell_ratio)
+                # self.t1 *= max(column_ratio, shell_ratio)
+                self.R *= ratio**(1/10)
+                self.L = (-4 * np.pi * self.R ** 3 + 3 * self.V) / (3 * np.pi * self.R ** 2) + 2 * self.R
+                self.mass = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1,
+                                                   self.t2) + self.sc_mass_without_tank + self.m_fuel
+                print(self.R, self.mass)
         self.compressive_load = self.mass * self.a_axial
 
     # def p4_find_n(self):
@@ -113,7 +120,7 @@ def firstIteration(tank: FuelTank):
 def thicknessIteration(tank: FuelTank):
     number_of_iterations = 0
     fail = True
-    while fail or number_of_iterations < 2:
+    while fail:
         number_of_iterations += 1
         tank.massCalc()
         starting_mass = tank.mass
@@ -129,6 +136,7 @@ def thicknessIteration(tank: FuelTank):
 def massIteration(tank: FuelTank, old_mass, new_mass):
     number_of_iterations = 1
     while (abs(new_mass - old_mass)) / old_mass > 0.0001:
+        print(f"Mass iteration {number_of_iterations}: mass = {tank.mass}")
         number_of_iterations += 1
         old_mass = new_mass
         tank.p3()
