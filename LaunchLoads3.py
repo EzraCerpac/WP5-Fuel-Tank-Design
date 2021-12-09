@@ -12,6 +12,7 @@ def column(material: str, R, L, t1):
 
 
 def shell(material: str, p, R, L, t1, h):
+    L = L - 2 * R
     E = mp.E_mod(material)
     v = mp.Poisson_ratio(material)
     Q = p/E * (R/t1)**2
