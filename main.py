@@ -63,18 +63,24 @@ class FuelTank:
         self.n_attachments = LaunchLoads3.check_h(self.material, self.R, self.L, self.t1, self.P)
         change, self.sigma_cr = LaunchLoads3.stress_failure_check(self.material, self.R, self.L, self.t1, self.P,
                                                                   self.n_attachments, self.mass, self.a_axial)
-        if False:
+        if True:
             ratio = 0
             while abs(ratio - 1) > 0.01:
                 column_ratio, shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P,
                                                               self.n_attachments, self.mass, self.a_axial)
                 ratio = max(column_ratio, shell_ratio)
                 # self.t1 *= max(column_ratio, shell_ratio)
-                self.R *= ratio**(1/10)
-                self.L = (-4 * np.pi * self.R ** 3 + 3 * self.V) / (3 * np.pi * self.R ** 2) + 2 * self.R
-                self.mass = TotalMassCalc.tankMass(self.material, self.R, self.L, self.t1,
+                R = self.R * ratio**(1/10)
+                L = (-4 * np.pi * self.R ** 3 + 3 * self.V) / (3 * np.pi * self.R ** 2) + 2 * self.R
+                mass = TotalMassCalc.tankMass(self.material, R, L, self.t1,
                                                    self.t2) + self.sc_mass_without_tank + self.m_fuel
-                print(self.R, self.mass)
+                if mass < self.mass:
+                    self.R = R
+                    self.L = L
+                    self.mass = mass
+                    print(self.R, self.mass)
+                else:
+                    break
         self.compressive_load = self.mass * self.a_axial
 
     # def p4_find_n(self):
