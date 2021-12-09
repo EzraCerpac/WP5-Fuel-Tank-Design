@@ -31,7 +31,7 @@ class FuelTank:
 
     def p2(self):
         # t1 for cylinder, t2 for sphere in meters
-        self.P = 12e5  # was 18.5e5
+        self.P = 18.5e5
         self.t2 = Pressure2.t2(self.R, self.material, self.P)
         self.t1 = Pressure2.t1(self.R, self.material, self.t2, self.P)
         # starting mass
@@ -48,10 +48,11 @@ class FuelTank:
         return fail
 
     def p3(self):
-        self.n_attachments = LaunchLoads3.check_h(self.material, self.R, self.L, self.t1, self.P)
-        change, self.sigma_cr = LaunchLoads3.stress_failure_check(self.material, self.R, self.L, self.t1, self.P,
-                                                                  self.n_attachments, self.mass, self.a_axial)
-        if True:
+        fail = True
+        while fail:
+            self.n_attachments = LaunchLoads3.check_h(self.material, self.R, self.L, self.t1, self.P)
+            fail, self.sigma_cr = LaunchLoads3.stress_failure_check(self.material, self.R, self.L, self.t1, self.P,
+                                                                      self.n_attachments, self.mass, self.a_axial)
             ratio = 0
             while abs(ratio - 1) > 0.01:
                 column_ratio, shell_ratio = LaunchLoads3.main(self.material, self.R, self.L, self.t1, self.P,
@@ -62,7 +63,7 @@ class FuelTank:
                 L = (-4 * np.pi * R ** 3 + 3 * self.V) / (3 * np.pi * R ** 2) + 2 * R
                 mass = TotalMassCalc.tankMass(self.material, R, L, self.t1,
                                               self.t2) + self.sc_mass_without_tank + self.m_fuel
-                if mass < self.mass:
+                if mass < self.mass or fail:
                     self.R = R
                     self.L = L
                     self.mass = mass
