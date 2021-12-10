@@ -1,9 +1,10 @@
+#%%
 import numpy as np
 import Pressure2, LaunchLoads3, MassOfAttachments4, TotalMassCalc
 import NaturalFreq6 as nf
 import MaterialProperties as mp
 import displacement565 as dsp
-
+#%%
 class FuelTank:
     def __init__(self, R, material):
         # 1 refers to fuel, 2 to oxidizer
@@ -28,6 +29,14 @@ class FuelTank:
         self.a_axial = 7.5 * 9.81
         self.a_lateral = 2.5 * 9.81
         self.sc_mass_without_tank = 1791.37 - 246.52 - 532.47 - 7.52 - 19.09
+    
+    def __repr__(self):
+        attrs = vars(self)
+        string = "\n##########################" + \
+        "\nThe Parameters:\n" + \
+        '\n'.join("%s: %s" % item for item in attrs.items()) + \
+        "\n##########################"
+        return string
 
     def p2(self):
         # t1 for cylinder, t2 for sphere in meters
@@ -107,7 +116,7 @@ class FuelTank:
         print('\n'.join("%s: %s" % item for item in attrs.items()))
         print("\n##########################")
 
-
+#%%
 def findMaterial():
     mass_of_material = {}
     for _, material in enumerate(mp.materials):
@@ -127,7 +136,8 @@ def main():
     # tank_v2 = FuelTank(0.5, "S 99")
     Calculations(tank_v1)
     tank_v1.Displacement()
-    tank_v1.printAll()
+    # tank_v1.printAll()
+    print(str(tank_v1))
     # print(SAPPHIRE.freq)
 
 
@@ -169,6 +179,8 @@ def massIteration(tank: FuelTank, old_mass, new_mass):
     print(f"\n  Ran the mass iteration {number_of_iterations} times")
     tank.p2()
 
-
+#%%
 if __name__ == '__main__':
     main()
+
+# %%
