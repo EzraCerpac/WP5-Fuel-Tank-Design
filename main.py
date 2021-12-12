@@ -107,15 +107,6 @@ class FuelTank:
         dsp.forloop(a,wn)
         dsp.forloop2(wn)
 
-
-
-    def printAll(self):
-        print("\n##########################")
-        print("\nThe Parameters:\n")
-        attrs = vars(self)
-        print('\n'.join("%s: %s" % item for item in attrs.items()))
-        print("\n##########################")
-
 #%%
 def findMaterial():
     mass_of_material = {}
@@ -136,8 +127,7 @@ def main():
     # tank_v2 = FuelTank(0.5, "S 99")
     Calculations(tank_v1)
     tank_v1.Displacement()
-    # tank_v1.printAll()
-    print(str(tank_v1))
+    print(tank_v1)
     # print(SAPPHIRE.freq)
 
 
