@@ -107,12 +107,21 @@ def findMaterial():
 
 
 def main():
+    global tank
     # R must be smaller than 0.536 or L=0 (0.5 is the best)
     findMaterial()
+<<<<<<< Updated upstream
     # tank_v1 = FuelTank(0.5, "Ti-6AL")
     # tank_v2 = FuelTank(0.5, "S 99")
     # firstIteration(tank_v1)
     # tank_v1.printAll()
+=======
+    tank = FuelTank(0.5, "Ti-6AL")
+    # tank_v2 = FuelTank(0.5, "S 99")
+    Calculations(tank)
+    tank.Displacement()
+    print(tank)
+>>>>>>> Stashed changes
     # print(SAPPHIRE.freq)
 
 
