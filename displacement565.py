@@ -42,7 +42,10 @@ def forloop(a,wn):
         t = t + 0.001
 
     plt.plot(time, results)
+    plt.xlabel(time [sec])
+    plt.ylabel(displacement [m])
     plt.show()
+    plt.savefig(displacementtime.pdf)
 
 
 
@@ -66,6 +69,8 @@ def forloop2(wn):
         wc = wc + 0.1
 
     plt.plot(wc_list, results2)
+    plt.xlabel(Frequency [rad])
+    plt.ylabel(Amplitude [m])
     plt.show()
 
 
