@@ -27,7 +27,7 @@ with NoStdStreams():
 
 
 # 1
-F = sqrt(Fx**2 + Fy**2 + Fz**2)
+F = sqrt(Fx**2 + Fy**2 + Fz**2) / 2
 
 def calc_mass(compressive_load: float, n_attachment: int):
     # 2
@@ -54,6 +54,7 @@ def main(compressive_load: float):
     return n_attachments, lowest_mass
 
 if __name__ == '__main__':
-    print(main(4e3))
+    print(Fx, Fy, Fz, F)
+    print(attachment_original_mass)
 
 
